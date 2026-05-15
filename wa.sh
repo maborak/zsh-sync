@@ -131,6 +131,9 @@ detect_distro() {
         fedora)
             DISTRO="fedora"
             ;;
+        arch|manjaro|endeavouros)
+            DISTRO="arch"
+            ;;
     esac
 
     if [ -z "$DISTRO" ]; then
@@ -192,6 +195,9 @@ install_packages() {
                 die "Homebrew not found. Install it first: https://brew.sh"
             fi
             brew install $missing || die "brew install failed"
+            ;;
+        arch)
+            $SUDO_CMD pacman -S --noconfirm $missing || die "Package installation failed"
             ;;
         *)
             die "Unsupported distro: $DISTRO. Install manually: $missing"
